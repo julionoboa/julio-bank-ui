@@ -24,4 +24,10 @@ export class ReportService {
 
     );
   }
+
+  generatePdf(clientId: string, startDate: string, endDate: string) {
+  return this.http.get<any>(`${this.apiUrl}/pdf`, {
+    params: { clientId, startDate, endDate }
+  });
+}
 }

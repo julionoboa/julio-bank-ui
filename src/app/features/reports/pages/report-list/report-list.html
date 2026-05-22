@@ -46,6 +46,12 @@
         >
           Search
         </button>
+
+        <button type="button" class="btn-secondary" (click)="generatePdf()">Generate PDF</button>
+        
+        @if (pdfBase64) {
+          <button type="button" class="btn-primary" (click)="downloadPdf()" style="background-color: #34c759; border-color: #34c759;">📥 Download PDF</button>
+        }
       </div>
 
     </form>

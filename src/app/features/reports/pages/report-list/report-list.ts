@@ -21,6 +21,7 @@ export class ReportList implements OnInit {
 
   reports: any[] = [];
   reportForm!: FormGroup;
+  pdfBase64: string | null = null;
 
   ngOnInit(): void {
     // Inicializamos el formulario de búsqueda
@@ -52,5 +53,29 @@ export class ReportList implements OnInit {
     } else {
       this.reportForm.markAllAsTouched();
     }
+  }
+
+  generatePdf(): void {
+    if (this.reportForm.valid) {
+      const { clientId, startDate, endDate } = this.reportForm.value;
+      
+      this.reportService.generatePdf(clientId, startDate, endDate)
+        .subscribe((res: any) => {
+          this.pdfBase64 = res.base64;
+          this.cdr.detectChanges();
+        });
+    }
+  }
+
+  downloadPdf(): void {
+    if (!this.pdfBase64) return;
+    
+    const linkSource = `data:application/pdf;base64,${this.pdfBase64}`;
+    const downloadLink = document.createElement("a");
+    const fileName = "reporte_cuenta.pdf";
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
   }
 }
