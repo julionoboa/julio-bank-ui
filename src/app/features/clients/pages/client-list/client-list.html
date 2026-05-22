@@ -1,0 +1,128 @@
+<div class="main-container">
+  
+  <div class="header-section">
+    <h2>Clients Control</h2>
+    <button 
+      [class]="showForm ? 'btn-secondary' : 'btn-primary'" 
+      (click)="toggleForm()"
+    >
+      {{ showForm ? 'Cancel' : '+ New Client' }}
+    </button>
+  </div>
+
+  @if (showForm) {
+    <div class="form-card">
+      <h3>Create New Client</h3>
+      
+      <form [formGroup]="clientForm" (ngSubmit)="saveClient()">
+        
+        <div class="form-grid">
+          <div class="input-group">
+            <label>First Name *</label>
+            <input class="modern-input" formControlName="firstName" placeholder="Ej. Juan">
+          </div>
+          
+          <div class="input-group">
+            <label>Middle Name</label>
+            <input class="modern-input" formControlName="middleName">
+          </div>
+
+          <div class="input-group">
+            <label>Last Name *</label>
+            <input class="modern-input" formControlName="lastName" placeholder="Ej. Pérez">
+          </div>
+
+          <div class="input-group">
+            <label>Second Last Name</label>
+            <input class="modern-input" formControlName="secondLastName">
+          </div>
+
+          <div class="input-group">
+            <label>Identification *</label>
+            <input class="modern-input" formControlName="identification">
+          </div>
+
+          <div class="input-group">
+            <label>Gender</label>
+            <select class="modern-input" formControlName="gender">
+              <option value="">Select...</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Age</label>
+            <input type="number" class="modern-input" formControlName="age">
+          </div>
+
+          <div class="input-group">
+            <label>Phone</label>
+            <input type="tel" class="modern-input" formControlName="phone">
+          </div>
+
+          <div class="input-group">
+            <label>Email</label>
+            <input type="email" class="modern-input" formControlName="email">
+          </div>
+
+          <div class="input-group">
+            <label>Password *</label>
+            <input type="password" class="modern-input" formControlName="password">
+          </div>
+
+          <div class="input-group full-width">
+            <label>Address</label>
+            <input class="modern-input" formControlName="address">
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" [disabled]="clientForm.invalid">
+            Save Client
+          </button>
+        </div>
+
+      </form>
+    </div>
+  }
+
+  <table class="modern-table">
+    </table>
+
+</div>
+
+<div class="main-container">
+  
+  <table class="modern-table">
+    
+    <thead>
+      <tr>
+        <th>Client ID</th>
+        <th>Name</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (client of clients; track client.clientId) {
+        <tr>
+          <td>
+            {{ client.clientId }}
+          </td>
+
+          <td>
+            {{ client.firstName }} {{ client.lastName }}
+          </td>
+
+          <td>
+            {{ client.status ? 'Active' : 'Inactive' }}
+          </td>
+        </tr>
+      }
+    </tbody>
+
+  </table>
+
+</div>

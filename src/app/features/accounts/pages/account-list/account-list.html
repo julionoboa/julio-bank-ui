@@ -1,0 +1,94 @@
+<div class="main-container">
+  
+  <div class="header-section">
+    <h2>Accounts</h2>
+    <button 
+      [class]="showForm ? 'btn-secondary' : 'btn-primary'" 
+      (click)="toggleForm()"
+    >
+      {{ showForm ? 'Cancel' : '+ New Account' }}
+    </button>
+  </div>
+
+  @if (showForm) {
+    <div class="form-card">
+      <h3>Create Account</h3>
+      
+      <form [formGroup]="accountForm" (ngSubmit)="saveAccount()">
+        <div class="form-grid">
+          
+          <div class="input-group">
+            <label>Client ID *</label>
+            <input 
+              class="modern-input" 
+              formControlName="clientId" 
+              placeholder="Enter Client ID" 
+            />
+          </div>
+
+          <div class="input-group">
+            <label>Account Number *</label>
+            <input 
+              class="modern-input" 
+              formControlName="accountNumber" 
+              placeholder="Enter Account Number" 
+            />
+          </div>
+
+          <div class="input-group">
+            <label>Account Type *</label>
+            <select class="modern-input" formControlName="accountType">
+              <option value="SAVINGS">SAVINGS</option>
+              <option value="CHECKING">CHECKING</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Initial Balance *</label>
+            <input 
+              class="modern-input" 
+              type="number" 
+              formControlName="initialBalance" 
+              placeholder="0.00" 
+            />
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" [disabled]="accountForm.invalid">
+            Create Account
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+
+  <table class="modern-table">
+    <thead>
+      <tr>
+        <th>Account ID</th>
+        <th>Account Number</th>
+        <th>Client ID</th>
+        <th>Type</th>
+        <th>Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (account of accounts; track account.accountNumber) {
+        <tr>
+          <td><strong>{{ account.id }}</strong></td>
+          <td>{{ account.accountNumber }}</td>
+          <td>{{ account.clientId }}</td>
+          <td>
+            <span [ngStyle]="{'color': account.accountType === 'SAVINGS' ? '#34c759' : '#007AFF', 'font-weight': '600'}">
+              {{ account.accountType }}
+            </span>
+          </td>
+          <td>{{ account.currentBalance | currency:'USD' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+</div>

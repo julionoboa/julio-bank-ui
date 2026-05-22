@@ -1,0 +1,23 @@
+<div class="container">
+  <aside class="sidebar">
+    <h2>Bank UI</h2>
+    <a routerLink="/clients" routerLinkActive="active">Clients</a>
+    <a routerLink="/accounts" routerLinkActive="active">Accounts</a>
+    <a routerLink="/movements" routerLinkActive="active">Movements</a>
+    <a routerLink="/reports" routerLinkActive="active">Reports</a>
+  </aside>
+
+  <main class="content">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
+
+<div class="notification-container">
+  @if (message$ | async; as msg) {
+    <div [class]="'toast ' + msg.type">
+      {{ msg.text }}
+    </div>
+  }
+</div>

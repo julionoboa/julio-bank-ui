@@ -1,0 +1,120 @@
+<div class="main-container">
+  
+  <div class="header-section">
+    <h2>Movements</h2>
+    <button 
+      [class]="showForm ? 'btn-secondary' : 'btn-primary'" 
+      (click)="toggleForm()"
+    >
+      {{ showForm ? 'Cancel' : '+ New Movement' }}
+    </button>
+  </div>
+
+  @if (showForm) {
+    <div class="form-card">
+      <h3>Register Movement</h3>
+      
+      <form [formGroup]="movementForm" (ngSubmit)="saveMovement()">
+        <div class="form-grid">
+          
+          <div class="input-group">
+            <label>Account ID *</label>
+            <input 
+              class="modern-input" 
+              formControlName="accountId" 
+              placeholder="Enter Account ID" 
+            />
+          </div>
+
+          <div class="input-group">
+            <label>Movement Type *</label>
+            <select class="modern-input" formControlName="movementType">
+              <option value="DEPOSIT">DEPOSIT</option>
+              <option value="WITHDRAWAL">WITHDRAWAL</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Amount *</label>
+            <input 
+              class="modern-input" 
+              type="number" 
+              formControlName="amount" 
+              placeholder="0.00" 
+            />
+          </div>
+
+          <div class="input-group">
+            <label>Description *</label>
+            <input 
+              class="modern-input" 
+              formControlName="description" 
+              placeholder="Ej. Salary, Rent..." 
+            />
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" [disabled]="movementForm.invalid">
+            Register Movement
+          </button>
+        </div>
+      </form>
+    </div>
+    
+  }
+
+  <div class="form-card" style="padding: 20px; margin-bottom: 20px;">
+  <div class="input-group">
+    <label>Filter by Account Number</label>
+    <input 
+      class="modern-input" 
+      [(ngModel)]="filterAccount" 
+      (input)="onFilterChange()" 
+      placeholder="Type account number..." 
+    />
+  </div>
+</div>
+
+  <table class="modern-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Account ID</th>
+        <th>Account</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (movements.length > 0) {
+        @for (movement of movements; track movement.id) {
+          <tr>
+            <td>{{ movement.date | date:'dd/MM/yyyy hh:mm a' }}</td>
+            <td><strong>{{ movement.accountId }}</strong></td>
+            <td>{{ movement.accountNumber }}</td>
+            <td>
+              <span [ngStyle]="{
+                'color': movement.movementType === 'DEPOSIT' ? '#34c759' : '#ff3b30', 
+                'font-weight': '600'
+              }">
+                {{ movement.movementType }}
+              </span>
+            </td>
+            <td><strong>{{ movement.amount | currency:'USD' }}</strong></td>
+            <td>{{ movement.balance | currency:'USD' }}</td>
+          </tr>
+        }
+      } @else {
+        <tr>
+          <td colspan="4" style="text-align: center; color: #86868b; padding: 20px;">
+            No movements found.
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+</div>
